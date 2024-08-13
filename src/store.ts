@@ -1,13 +1,16 @@
+// store.ts
 import create from 'zustand';
 
-// Define el estado y los métodos de la tienda
 interface StoreState {
   isLoggedIn: boolean;
+  username: string | null;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  setUsername: (username: string | null) => void;
 }
 
-// Crea la tienda usando Zustand
 export const useStore = create<StoreState>((set) => ({
   isLoggedIn: false,
+  username: null,
   setIsLoggedIn: (isLoggedIn: boolean) => set({ isLoggedIn }),
+  setUsername: (username: string | null) => set({ username }),
 }));

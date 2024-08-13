@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useStore } from '../store';
-import Loader from '../components/Loader'; // Importa el Loader
+import { useStore } from '../store'; // Asegúrate de tener tu tienda Zustand importada
 
+// Validación de credenciales
 const validateCredentials = (username: string, password: string) => {
   const usernamePattern = /^[a-z]+$/;
   const expectedPassword = `123${username}`;
@@ -25,37 +25,32 @@ const Login: React.FC = () => {
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false); // Estado para controlar el loader
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useStore();
+  const { setIsLoggedIn, setUsername: setStoreUsername } = useStore(); // Usar Zustand para obtener y actualizar el estado
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    setLoading(true); // Muestra el loader
-
-    setTimeout(() => {
-      const validationError = validateCredentials(username, password);
-      if (validationError) {
-        if (validationError.includes('usuario')) {
-          setUsernameError(validationError);
-          setPasswordError(null);
-        } else {
-          setPasswordError(validationError);
-          setUsernameError(null);
-        }
+    const validationError = validateCredentials(username, password);
+    if (validationError) {
+      if (validationError.includes('usuario')) {
+        setUsernameError(validationError);
+        setPasswordError(null);
       } else {
-        setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
-        navigate('/home');
+        setPasswordError(validationError);
+        setUsernameError(null);
       }
-      setLoading(false); // Oculta el loader
-    }, 500); // Retraso de medio segundo
+    } else {
+      setIsLoggedIn(true); // Actualiza el estado de autenticación
+      setStoreUsername(username); // Actualiza el nombre de usuario en Zustand
+      localStorage.setItem('isLoggedIn', 'true'); // Persiste la sesión
+      localStorage.setItem('username', username); // Persiste el nombre de usuario
+      navigate('/home');
+    }
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      {loading && <Loader />} {/* Muestra el loader mientras se valida */}
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded shadow-md w-96"
