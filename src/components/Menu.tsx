@@ -31,10 +31,10 @@ const Menu: React.FC<MenuProps> = ({ menuOpen, toggleMenu }) => {
       <div
         className={`fixed top-0 left-0 h-full bg-white border-r shadow-lg z-30 transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:w-1/4`} // Oculto en mobile, visible en desktop
-        style={{ width: '25vw' }} // Menú ocupa un cuarto del ancho de la pantalla
+        } md:translate-x-0 md:w-1/4 w-full`} // Oculto en mobile, visible en desktop
+        style={{ width: '100vw', maxWidth: '25vw' }} // Menú ocupa todo el ancho en mobile, y un cuarto del ancho en desktop
       >
-        <div className="p-4">
+        <div className="p-4 h-full">
           {/* Imagen de usuario */}
           <div className="flex items-center mb-4">
             <img

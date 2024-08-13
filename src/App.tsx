@@ -1,8 +1,12 @@
+// App.tsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Importa React Query
 import Login from './pages/Login';
 import Home from './pages/Home';
 import { useStore } from './store'; // Importa tu tienda Zustand
+
+const queryClient = new QueryClient(); // Crea una instancia de QueryClient
 
 const App: React.FC = () => {
   const { isLoggedIn } = useStore(); // Usa Zustand para obtener el estado de autenticación
@@ -17,21 +21,23 @@ const App: React.FC = () => {
   }, [isLoggedIn]);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Navigate to={isLoggedIn ? '/home' : '/login'} replace />}
-      />
-      <Route
-        path="/login"
-        element={isLoggedIn ? <Navigate to="/home" replace /> : <Login />}
-      />
-      <Route
-        path="/home"
-        element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
-      />
-      {/* Otras rutas */}
-    </Routes>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={isLoggedIn ? '/home' : '/login'} replace />}
+        />
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/home" replace /> : <Login />}
+        />
+        <Route
+          path="/home"
+          element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
+        />
+        {/* Otras rutas */}
+      </Routes>
+    </QueryClientProvider>
   );
 };
 
