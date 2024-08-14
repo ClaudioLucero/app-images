@@ -1,12 +1,12 @@
 // src/pages/Home.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import Menu from '../components/Menu';
 import { useImages } from '../services/imageService';
 import { Image } from '../types/image';
-import ImageCard from '../components/ImageCard'; // Importa el componente ImageCard
+import ImageCard from '../components/ImageCard'; // Asegúrate de importar ImageCard
 
 const Home: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const { data: images, error, isLoading } = useImages();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
