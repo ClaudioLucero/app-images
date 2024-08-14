@@ -1,33 +1,54 @@
-// src/pages/Home.tsx
-import React from 'react';
-import Menu from '../components/Menu';
+import React, { useRef, useCallback, useState } from 'react';
 import { useImages } from '../services/imageService';
+import ImageCard from '../components/ImageCard';
+import Menu from '../components/Menu'; // Asegúrate de importar el componente Menu
 import { Image } from '../types/image';
-import ImageCard from '../components/ImageCard'; // Asegúrate de importar ImageCard
 
 const Home: React.FC = () => {
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const { data: images, error, isLoading } = useImages();
+  const { data, error, fetchNextPage, hasNextPage, isLoading } = useImages();
+  const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastImageElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, fetchNextPage, hasNextPage],
+  );
+
+  const images: Image[] = data?.pages.flatMap((page) => page.images) ?? [];
+
+  // Función para alternar la apertura del menú
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
-    <div className="relative flex h-screen">
+    <div>
       <Menu menuOpen={menuOpen} toggleMenu={toggleMenu} />
-      <div
-        className={`flex-1 p-4 ${menuOpen ? 'md:ml-64' : 'md:ml-0'} transition-all duration-300`}
+      <button
+        className="fixed top-4 left-4 z-30 md:hidden"
+        onClick={toggleMenu}
       >
-        <button
-          className="md:hidden p-2 mb-4 bg-gray-700 text-white rounded"
-          onClick={toggleMenu}
-        >
-          Menu
-        </button>
-        {isLoading && <div>Cargando...</div>}
+        <span className="material-icons">menu</span>
+      </button>
+      <div>
+        {isLoading && <div>Loading...</div>}
         {error && <div>{`Error al cargar imágenes: ${error.message}`}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images?.map((image: Image) => (
-            <ImageCard key={image.id} image={image} />
+          {images.map((image, index) => (
+            <div
+              key={image.id}
+              ref={index === images.length - 1 ? lastImageElementRef : null}
+            >
+              <ImageCard image={image} />
+            </div>
           ))}
         </div>
       </div>
