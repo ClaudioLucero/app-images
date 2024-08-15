@@ -1,8 +1,7 @@
-// src/components/Menu.tsx
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda Zustand
+import { Cross2Icon } from '@radix-ui/react-icons'; // Importa los íconos
 
 interface MenuProps {
   menuOpen: boolean;
@@ -39,10 +38,16 @@ const Menu: React.FC<MenuProps> = ({
       <div
         className={`fixed top-0 left-0 h-full bg-white border-r shadow-lg z-50 transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`} // Menú está siempre sobre otros elementos y se desliza desde el lado
-        style={{ width: '100vw', maxWidth: '25vw' }} // Menú ocupa todo el ancho en mobile y un cuarto en desktop
+        } w-full sm:w-3/4 md:w-1/4`}
       >
-        <div className="p-4 h-full">
+        <div className="p-4 h-full relative">
+          {/* Botón de cerrar en móviles */}
+          <button
+            className="absolute top-4 right-4 text-gray-700 hover:text-gray-900 lg:hidden"
+            onClick={toggleMenu}
+          >
+            &times;
+          </button>
           {/* Imagen de usuario */}
           <div className="flex items-center mb-4">
             <img
@@ -102,7 +107,9 @@ const Menu: React.FC<MenuProps> = ({
             : 'opacity-0 pointer-events-none'
         }`}
         onClick={toggleMenu}
-      ></div>
+      >
+        <Cross2Icon />
+      </div>
     </>
   );
 };

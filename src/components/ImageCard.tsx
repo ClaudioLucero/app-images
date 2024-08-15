@@ -59,7 +59,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
           />
         )}
       </div>
-      <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white p-2 rounded">
+      <div className="absolute bottom-5 left-2 bg-black bg-opacity-50 text-white p-2 rounded">
         {image.author}
       </div>
     </div>

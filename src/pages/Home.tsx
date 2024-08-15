@@ -1,5 +1,3 @@
-// src/pages/Home.tsx
-
 import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { useImages } from '../services/imageService';
 import ImageCard from '../components/ImageCard';
@@ -54,8 +52,8 @@ const Home: React.FC = () => {
         onViewAll={handleViewAll}
       />
       <div
-        className={`transition-all duration-300 ${menuOpen ? 'ml-0' : 'ml-0'} pt-16`} // Asegura que el margen izquierdo no cambie
-        style={{ marginLeft: menuOpen ? '25vw' : '0' }} // Ajusta el espacio para el menú en móvil
+        className={`transition-all duration-300 pt-16`} // Asegura que el margen izquierdo no cambie
+        style={{ marginLeft: menuOpen ? '0' : '0' }} // Ajusta el espacio para el menú en móvil
       >
         {isLoading && <Loader />}
         {error && (

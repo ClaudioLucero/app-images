@@ -6,7 +6,12 @@ import { useImageDetails } from '../services/imageService';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; // Importa LazyLoadImage
 import 'react-lazy-load-image-component/src/effects/blur.css'; // Importa el efecto de desenfoque
 import Skeleton from '../components/Skeleton'; // Asegúrate de importar el componente Skeleton
-import { HeartIcon, HeartFilledIcon, DownloadIcon } from '@radix-ui/react-icons'; // Importa los íconos
+import {
+  HeartIcon,
+  HeartFilledIcon,
+  DownloadIcon,
+  DoubleArrowLeftIcon,
+} from '@radix-ui/react-icons'; // Importa los íconos
 import { useFavoritesStore } from '../stores/favorites'; // Importa el store
 
 const ImageDetail: React.FC = () => {
@@ -96,7 +101,7 @@ const ImageDetail: React.FC = () => {
         onClick={handleBack}
         className="absolute top-4 left-4 px-4 py-2 bg-black text-white rounded"
       >
-        Back
+        <DoubleArrowLeftIcon />
       </button>
       <div className="relative w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="relative">

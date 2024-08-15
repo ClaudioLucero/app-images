@@ -1,10 +1,10 @@
-import { useQuery,useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { PaginatedImagesResponse, Image } from '../types/image';
 
 // Define la función para obtener datos
 const fetchImages = async (page: number): Promise<PaginatedImagesResponse> => {
   const response = await fetch(
-    `https://picsum.photos/v2/list?page=${page}&limit=10`,
+    `https://picsum.photos/v2/list?page=${page}&limit=20`,
   );
   if (!response.ok) throw new Error('Network response was not ok');
 
@@ -37,7 +37,7 @@ export const useImages = () => {
 const fetchImageDetails = async (id: string): Promise<Image> => {
   const response = await fetch(`https://picsum.photos/id/${id}/info`);
   if (!response.ok) throw new Error('Network response was not ok');
-  return await response.json();
+  return response.json();
 };
 
 export const useImageDetails = (id: string) => {
