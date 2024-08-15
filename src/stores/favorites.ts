@@ -1,3 +1,4 @@
+// store/favorites.ts
 import create from 'zustand';
 import { Image } from '../types/image';
 import {

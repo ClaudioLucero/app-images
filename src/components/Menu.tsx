@@ -1,4 +1,3 @@
-// Menu.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda Zustand
@@ -6,9 +5,16 @@ import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda 
 interface MenuProps {
   menuOpen: boolean;
   toggleMenu: () => void;
+  onViewFavorites: () => void;
+  onViewAll: () => void; // Función para ver todos los elementos
 }
 
-const Menu: React.FC<MenuProps> = ({ menuOpen, toggleMenu }) => {
+const Menu: React.FC<MenuProps> = ({
+  menuOpen,
+  toggleMenu,
+  onViewFavorites,
+  onViewAll,
+}) => {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useStore(); // Usa Zustand para actualizar el estado de autenticación
 
@@ -52,13 +58,27 @@ const Menu: React.FC<MenuProps> = ({ menuOpen, toggleMenu }) => {
           <nav>
             <ul>
               <li className="mb-2">
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  Inicio
+                <a
+                  href="#"
+                  className="text-gray-700 hover:text-gray-900"
+                  onClick={() => {
+                    toggleMenu();
+                    onViewFavorites(); // Llama a la función de callback
+                  }}
+                >
+                  Mis imágenes
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-gray-700 hover:text-gray-900">
-                  Mis imágenes
+              <li className="mb-2">
+                <a
+                  href="#"
+                  className="text-gray-700 hover:text-gray-900"
+                  onClick={() => {
+                    toggleMenu();
+                    onViewAll(); // Llama a la función de callback para ver todos
+                  }}
+                >
+                  Inicio
                 </a>
               </li>
             </ul>

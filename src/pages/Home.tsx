@@ -3,12 +3,13 @@ import { useImages } from '../services/imageService';
 import ImageCard from '../components/ImageCard';
 import Menu from '../components/Menu';
 import { Image } from '../types/image';
-import { useFavoritesStore } from '../stores/favorites'; // Importa la tienda de favoritos
+import { useFavoritesStore } from '../stores/favorites';
 
 const Home: React.FC = () => {
-  const { data, error, fetchNextPage, hasNextPage, isLoading } = useImages();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { initializeFavorites } = useFavoritesStore(); // Usa la tienda de favoritos para inicializar
+  const [showFavorites, setShowFavorites] = useState(false);
+  const { data, error, fetchNextPage, hasNextPage, isLoading } = useImages();
+  const { favorites, initializeFavorites } = useFavoritesStore();
 
   useEffect(() => {
     initializeFavorites(); // Inicializa favoritos al montar el componente
@@ -30,13 +31,23 @@ const Home: React.FC = () => {
     [isLoading, fetchNextPage, hasNextPage],
   );
 
-  const images: Image[] = data?.pages.flatMap((page) => page.images) ?? [];
+  const images: Image[] = showFavorites
+    ? favorites
+    : (data?.pages.flatMap((page) => page.images) ?? []);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  const handleViewFavorites = () => setShowFavorites(true);
+  const handleViewAll = () => setShowFavorites(false);
+
   return (
     <div>
-      <Menu menuOpen={menuOpen} toggleMenu={toggleMenu} />
+      <Menu
+        menuOpen={menuOpen}
+        toggleMenu={toggleMenu}
+        onViewFavorites={handleViewFavorites}
+        onViewAll={handleViewAll}
+      />
       <button
         className="fixed top-4 left-4 z-30 md:hidden"
         onClick={toggleMenu}
