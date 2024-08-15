@@ -4,7 +4,7 @@ import { useImageDetails } from '../services/imageService';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; // Importa LazyLoadImage
 import 'react-lazy-load-image-component/src/effects/blur.css'; // Importa el efecto de desenfoque
 import Skeleton from '../components/Skeleton'; // Asegúrate de importar el componente Skeleton
-import { HeartIcon } from '@radix-ui/react-icons'; // Suponiendo que este es el ícono de favorito
+import { HeartIcon, DownloadIcon } from '@radix-ui/react-icons'; // Importa los íconos de favoritos y descarga
 
 const ImageDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Obtén el ID de la URL
@@ -15,6 +15,33 @@ const ImageDetail: React.FC = () => {
 
   const handleBack = () => {
     navigate(-1); // Navega hacia atrás
+  };
+
+  const handleDownload = async () => {
+    if (!image || !image.download_url) return;
+
+    try {
+      // Obtiene la imagen como Blob
+      const response = await fetch(image.download_url);
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      // Crea un enlace temporal para descargar la imagen
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = image.download_url.split('/').pop() || 'image.jpg'; // Nombre del archivo para la descarga
+      link.style.display = 'none'; // Oculta el enlace
+      document.body.appendChild(link);
+      link.click();
+
+      // Limpia el URL objeto y elimina el enlace
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the image:', error);
+    }
   };
 
   if (isLoading)
@@ -61,7 +88,13 @@ const ImageDetail: React.FC = () => {
           <div className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg">
             <HeartIcon className="text-red-500 cursor-pointer" />
           </div>
-          <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded">
+          <div className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-lg">
+            <DownloadIcon
+              className="text-blue-500 cursor-pointer"
+              onClick={handleDownload}
+            />
+          </div>
+          <div className="absolute bottom-4 left-16 bg-black bg-opacity-50 text-white p-2 rounded">
             {author}
           </div>
         </div>
