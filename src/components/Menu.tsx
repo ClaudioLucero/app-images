@@ -1,3 +1,5 @@
+// src/components/Menu.tsx
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda Zustand
@@ -35,10 +37,10 @@ const Menu: React.FC<MenuProps> = ({
     <>
       {/* Menú */}
       <div
-        className={`fixed top-0 left-0 h-full bg-white border-r shadow-lg z-30 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full bg-white border-r shadow-lg z-50 transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:w-1/4 w-full`} // Oculto en mobile, visible en desktop
-        style={{ width: '100vw', maxWidth: '25vw' }} // Menú ocupa todo el ancho en mobile, y un cuarto del ancho en desktop
+        }`} // Menú está siempre sobre otros elementos y se desliza desde el lado
+        style={{ width: '100vw', maxWidth: '25vw' }} // Menú ocupa todo el ancho en mobile y un cuarto en desktop
       >
         <div className="p-4 h-full">
           {/* Imagen de usuario */}
@@ -94,8 +96,10 @@ const Menu: React.FC<MenuProps> = ({
       </div>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity duration-300 ${
-          menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ${
+          menuOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
         }`}
         onClick={toggleMenu}
       ></div>

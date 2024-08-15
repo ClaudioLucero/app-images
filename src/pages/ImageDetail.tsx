@@ -6,11 +6,7 @@ import { useImageDetails } from '../services/imageService';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; // Importa LazyLoadImage
 import 'react-lazy-load-image-component/src/effects/blur.css'; // Importa el efecto de desenfoque
 import Skeleton from '../components/Skeleton'; // Asegúrate de importar el componente Skeleton
-import {
-  HeartIcon,
-  HeartFilledIcon,
-  DownloadIcon,
-} from '@radix-ui/react-icons'; // Importa los íconos
+import { HeartIcon, HeartFilledIcon, DownloadIcon } from '@radix-ui/react-icons'; // Importa los íconos
 import { useFavoritesStore } from '../stores/favorites'; // Importa el store
 
 const ImageDetail: React.FC = () => {

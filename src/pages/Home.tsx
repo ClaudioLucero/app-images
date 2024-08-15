@@ -1,7 +1,11 @@
+// src/pages/Home.tsx
+
 import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { useImages } from '../services/imageService';
 import ImageCard from '../components/ImageCard';
 import Menu from '../components/Menu';
+import Header from '../components/Header';
+import Loader from '../components/Loader';
 import { Image } from '../types/image';
 import { useFavoritesStore } from '../stores/favorites';
 
@@ -41,22 +45,19 @@ const Home: React.FC = () => {
   const handleViewAll = () => setShowFavorites(false);
 
   return (
-    <div>
+    <div className="relative">
+      <Header toggleMenu={toggleMenu} />
       <Menu
         menuOpen={menuOpen}
         toggleMenu={toggleMenu}
         onViewFavorites={handleViewFavorites}
         onViewAll={handleViewAll}
       />
-      <button
-        className="fixed top-4 left-4 z-30 md:hidden"
-        onClick={toggleMenu}
-        aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+      <div
+        className={`transition-all duration-300 ${menuOpen ? 'ml-0' : 'ml-0'} pt-16`} // Asegura que el margen izquierdo no cambie
+        style={{ marginLeft: menuOpen ? '25vw' : '0' }} // Ajusta el espacio para el menú en móvil
       >
-        <span className="material-icons">menu</span>
-      </button>
-      <div>
-        {isLoading && <div className="text-center">Loading...</div>}
+        {isLoading && <Loader />}
         {error && (
           <div className="text-red-500">{`Error al cargar imágenes: ${error.message}`}</div>
         )}
