@@ -1,10 +1,17 @@
-import React from 'react';
+// src/pages/ImageDetail.tsx
+
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Importa useParams y useNavigate
 import { useImageDetails } from '../services/imageService';
 import { LazyLoadImage } from 'react-lazy-load-image-component'; // Importa LazyLoadImage
 import 'react-lazy-load-image-component/src/effects/blur.css'; // Importa el efecto de desenfoque
 import Skeleton from '../components/Skeleton'; // Asegúrate de importar el componente Skeleton
-import { HeartIcon, DownloadIcon } from '@radix-ui/react-icons'; // Importa los íconos de favoritos y descarga
+import {
+  HeartIcon,
+  HeartFilledIcon,
+  DownloadIcon,
+} from '@radix-ui/react-icons'; // Importa los íconos
+import { useFavoritesStore } from '../stores/favorites'; // Importa el store
 
 const ImageDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Obtén el ID de la URL
@@ -12,6 +19,9 @@ const ImageDetail: React.FC = () => {
 
   // Usa el hook useImageDetails para obtener los detalles de la imagen
   const { data: image, isLoading, isError } = useImageDetails(id ?? '');
+
+  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const [isImageFavorite, setIsImageFavorite] = useState(false);
 
   const handleBack = () => {
     navigate(-1); // Navega hacia atrás
@@ -43,6 +53,22 @@ const ImageDetail: React.FC = () => {
       console.error('Error downloading the image:', error);
     }
   };
+
+  const handleFavoriteToggle = () => {
+    if (isFavorite(id!)) {
+      removeFavorite(id!);
+    } else {
+      addFavorite(image!);
+    }
+    setIsImageFavorite(!isImageFavorite);
+  };
+
+  useEffect(() => {
+    const checkIfFavorite = () => {
+      setIsImageFavorite(isFavorite(id!));
+    };
+    checkIfFavorite();
+  }, [id, isFavorite]);
 
   if (isLoading)
     return (
@@ -86,7 +112,17 @@ const ImageDetail: React.FC = () => {
             className="w-full object-cover"
           />
           <div className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg">
-            <HeartIcon className="text-red-500 cursor-pointer" />
+            {isImageFavorite ? (
+              <HeartFilledIcon
+                className="text-red-500 cursor-pointer"
+                onClick={handleFavoriteToggle}
+              />
+            ) : (
+              <HeartIcon
+                className="text-gray-500 cursor-pointer"
+                onClick={handleFavoriteToggle}
+              />
+            )}
           </div>
           <div className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-lg">
             <DownloadIcon

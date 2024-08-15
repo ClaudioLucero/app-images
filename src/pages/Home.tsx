@@ -1,12 +1,18 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { useImages } from '../services/imageService';
 import ImageCard from '../components/ImageCard';
-import Menu from '../components/Menu'; // Asegúrate de importar el componente Menu
+import Menu from '../components/Menu';
 import { Image } from '../types/image';
+import { useFavoritesStore } from '../stores/favorites'; // Importa la tienda de favoritos
 
 const Home: React.FC = () => {
   const { data, error, fetchNextPage, hasNextPage, isLoading } = useImages();
-  const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { initializeFavorites } = useFavoritesStore(); // Usa la tienda de favoritos para inicializar
+
+  useEffect(() => {
+    initializeFavorites(); // Inicializa favoritos al montar el componente
+  }, [initializeFavorites]);
 
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -26,7 +32,6 @@ const Home: React.FC = () => {
 
   const images: Image[] = data?.pages.flatMap((page) => page.images) ?? [];
 
-  // Función para alternar la apertura del menú
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
@@ -35,12 +40,15 @@ const Home: React.FC = () => {
       <button
         className="fixed top-4 left-4 z-30 md:hidden"
         onClick={toggleMenu}
+        aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
       >
         <span className="material-icons">menu</span>
       </button>
       <div>
-        {isLoading && <div>Loading...</div>}
-        {error && <div>{`Error al cargar imágenes: ${error.message}`}</div>}
+        {isLoading && <div className="text-center">Loading...</div>}
+        {error && (
+          <div className="text-red-500">{`Error al cargar imágenes: ${error.message}`}</div>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map((image, index) => (
             <div

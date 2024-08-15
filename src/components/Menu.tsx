@@ -1,7 +1,7 @@
 // Menu.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../store'; // Asegúrate de importar tu tienda Zustand
+import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda Zustand
 
 interface MenuProps {
   menuOpen: boolean;

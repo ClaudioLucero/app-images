@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useStore } from '../store'; // Asegúrate de tener tu tienda Zustand importada
+import { useStore } from '../stores/login'; // Asegúrate de que la tienda Zustand esté correctamente importada
 import Loader from '../components/Loader'; // Asegúrate de que el componente Loader esté correctamente importado
 
 // Validación de credenciales
@@ -30,30 +30,31 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { setIsLoggedIn, setUsername: setStoreUsername } = useStore(); // Usar Zustand para obtener y actualizar el estado
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Inicia el estado de carga
 
-    setTimeout(() => {
-      const validationError = validateCredentials(username, password);
-      if (validationError) {
-        if (validationError.includes('usuario')) {
-          setUsernameError(validationError);
-          setPasswordError(null);
-        } else {
-          setPasswordError(validationError);
-          setUsernameError(null);
-        }
+    // Validación de credenciales
+    const validationError = validateCredentials(username, password);
+    if (validationError) {
+      if (validationError.includes('usuario')) {
+        setUsernameError(validationError);
+        setPasswordError(null);
       } else {
-        setIsLoggedIn(true); // Actualiza el estado de autenticación
-        setStoreUsername(username); // Actualiza el nombre de usuario en Zustand
-        localStorage.setItem('isLoggedIn', 'true'); // Persiste la sesión
-        localStorage.setItem('username', username); // Persiste el nombre de usuario
-        navigate('/home');
+        setPasswordError(validationError);
+        setUsernameError(null);
       }
-
       setLoading(false); // Finaliza el estado de carga
-    }, 500); // Simula 500 ms de carga
+      return;
+    }
+
+    // Actualiza el estado de autenticación y almacena en localStorage
+    setIsLoggedIn(true);
+    setStoreUsername(username);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('username', username);
+    navigate('/home');
+    setLoading(false); // Finaliza el estado de carga
   };
 
   return (

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Imp
 import Login from './pages/Login';
 import Home from './pages/Home';
 import ImageDetail from './pages/ImageDetail';
-import { useStore } from './store'; // Importa tu tienda Zustand
+import { useStore } from './stores/login'; // Importa tu tienda Zustand
 
 const queryClient = new QueryClient(); // Crea una instancia de QueryClient
 
