@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery,useInfiniteQuery } from '@tanstack/react-query';
 import { PaginatedImagesResponse, Image } from '../types/image';
 
 // Define la función para obtener datos
@@ -31,5 +31,20 @@ export const useImages = () => {
     },
     staleTime: 60000, // Ajusta el tiempo según sea necesario
     initialPageParam: 1, // Valor inicial de la página
+  });
+};
+// Función para obtener detalles de una imagen por ID
+const fetchImageDetails = async (id: string): Promise<Image> => {
+  const response = await fetch(`https://picsum.photos/id/${id}/info`);
+  if (!response.ok) throw new Error('Network response was not ok');
+  return await response.json();
+};
+
+export const useImageDetails = (id: string) => {
+  return useQuery<Image, Error>({
+    queryKey: ['imageDetails', id],
+    queryFn: () => fetchImageDetails(id),
+    staleTime: 60000,
+    // Remove cacheTime if not available
   });
 };
