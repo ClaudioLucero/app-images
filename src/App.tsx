@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Importa React Query
 import Login from './pages/Login';
 import Home from './pages/Home';
+import ImageDetail from './pages/ImageDetail';
 import { useStore } from './store'; // Importa tu tienda Zustand
 
 const queryClient = new QueryClient(); // Crea una instancia de QueryClient
@@ -35,7 +36,12 @@ const App: React.FC = () => {
           path="/home"
           element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
         />
-        {/* Otras rutas */}
+        <Route
+          path="/image/:id"
+          element={
+            isLoggedIn ? <ImageDetail /> : <Navigate to="/login" replace />
+          }
+        />
       </Routes>
     </QueryClientProvider>
   );
