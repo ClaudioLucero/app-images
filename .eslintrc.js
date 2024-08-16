@@ -20,6 +20,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
+    "@typescript-eslint/naming-convention": "off",
     'react/react-in-jsx-scope': 'off', // Solo necesario para Next.js
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/extensions': ['error', 'never', {
