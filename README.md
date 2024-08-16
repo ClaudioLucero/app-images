@@ -90,6 +90,40 @@ La aplicación utiliza las siguientes librerías:
 - **eslint-plugin-react-hooks**: Plugin de ESLint para reglas de Hooks en React.
 - **prettier**: Herramienta para formatear el código.
 
+## Arquitectura
+
+```plaintext
+images-app/
+├── public/
+│   └── index.html                  # Archivo HTML principal
+├── src/
+│   ├── components/                 # Componentes React reutilizables
+│   │   ├── Header.tsx              # Componente Header
+│   │   ├── ImageCard.tsx           # Componente ImageCard
+│   │   ├── Loader.tsx              # Componente Loader
+│   │   ├── Menu.tsx                # Componente Menu
+│   │   ├── Skeleton.tsx            # Componente Skeleton
+│   │   └── ConfirmDialog.tsx       # Componente ConfirmDialog
+│   ├── pages/                      # Páginas principales de la aplicación
+│   │   ├── Home.tsx                # Página Home
+│   │   ├── ImageDetail.jsx         # Página ImageDetail
+│   │   └── Login.tsx               # Página Login
+│   ├── services/                   # Servicios para la lógica de negocio y datos
+│   │   ├── imageService.ts         # Servicio para la gestión de imágenes
+│   │   └── indexedDB.ts            # Servicio para guardar imágenes en memoria local
+│   ├── stores/                     # Almacenes de estado global (Zustand)
+│   │   ├── favorites.ts            # Almacén para los favoritos
+│   │   └── login.ts                # Almacén para el estado de login
+│   ├── types/                      # Tipos TypeScript
+│   │   └── image.ts                # Tipos para las imágenes
+│   ├── App.tsx                     # Componente principal de la aplicación
+│   ├── index.tsx                   # Punto de entrada de React
+│   ├── tsconfig.json               # Configuración de TypeScript
+│   ├── .eslintrc.js                # Configuración de ESLint
+│   ├── .prettierrc.js              # Configuración de Prettier
+├── .gitignore                      # Archivos y carpetas a ignorar en Git
+├── package.json                    # Dependencias y scripts del proyecto
+└── README.md                       # Archivo de documentación
 
 
 - **Inicio de sesión**: Redirige a la página de inicio de sesión.
