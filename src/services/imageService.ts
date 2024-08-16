@@ -4,7 +4,7 @@ import { PaginatedImagesResponse, Image } from '../types/image';
 // Define la función para obtener datos
 const fetchImages = async (page: number): Promise<PaginatedImagesResponse> => {
   const response = await fetch(
-    `https://picsum.photos/v2/list?page=${page}&limit=20`,
+    `https://picsum.photos/v2/list?page=${page}&limit=10`,
   );
   if (!response.ok) throw new Error('Network response was not ok');
 
@@ -35,7 +35,7 @@ export const useImages = () => {
 };
 // Función para obtener detalles de una imagen por ID
 const fetchImageDetails = async (id: string): Promise<Image> => {
-  const response = await fetch(`https://picsum.photos/id/${id}/info`);
+  const response = await fetch(`https://picsum.photos/id/${id}333333/info`);
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 };
