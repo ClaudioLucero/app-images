@@ -1,13 +1,13 @@
 // App.tsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Importa React Query
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import ImageDetail from './pages/ImageDetail';
-import { useStore } from './stores/login'; // Importa tu tienda Zustand
+import { useStore } from './stores/login';
 
-const queryClient = new QueryClient(); // Crea una instancia de QueryClient
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   const { isLoggedIn } = useStore(); // Usa Zustand para obtener el estado de autenticación

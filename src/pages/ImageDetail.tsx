@@ -1,18 +1,18 @@
 // src/pages/ImageDetail.tsx
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Importa useParams y useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import { useImageDetails } from '../services/imageService';
-import { LazyLoadImage } from 'react-lazy-load-image-component'; // Importa LazyLoadImage
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css'; // Importa el efecto de desenfoque
-import Skeleton from '../components/Skeleton'; // Asegúrate de importar el componente Skeleton
+import Skeleton from '../components/Skeleton';
 import {
   HeartIcon,
   HeartFilledIcon,
   DownloadIcon,
   DoubleArrowLeftIcon,
-} from '@radix-ui/react-icons'; // Importa los íconos
-import { useFavoritesStore } from '../stores/favorites'; // Importa el store
+} from '@radix-ui/react-icons';
+import { useFavoritesStore } from '../stores/favorites';
 
 const ImageDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Obtén el ID de la URL
@@ -92,7 +92,6 @@ const ImageDetail: React.FC = () => {
       </div>
     );
 
-  // Asegúrate de que el tipo `Image` tenga estas propiedades
   const { download_url, author } = image;
 
   return (
@@ -109,7 +108,7 @@ const ImageDetail: React.FC = () => {
             src={download_url}
             alt={author}
             effect="blur"
-            height={600} // Ajusta a la altura deseada
+            height={600}
             className="w-full object-cover"
           />
           <div className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg">

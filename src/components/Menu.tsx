@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../stores/login'; // Asegúrate de importar tu tienda Zustand
-import { Cross2Icon } from '@radix-ui/react-icons'; // Importa los íconos
+import { useStore } from '../stores/login';
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 interface MenuProps {
   menuOpen: boolean;
@@ -67,7 +67,7 @@ const Menu: React.FC<MenuProps> = ({
               <li className="mb-2">
                 <a
                   href="#"
-                  className="text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-red-400"
                   onClick={() => {
                     toggleMenu();
                     onViewFavorites(); // Llama a la función de callback
@@ -79,7 +79,7 @@ const Menu: React.FC<MenuProps> = ({
               <li className="mb-2">
                 <a
                   href="#"
-                  className="text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-red-400"
                   onClick={() => {
                     toggleMenu();
                     onViewAll(); // Llama a la función de callback para ver todos

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useStore } from '../stores/login'; // Asegúrate de que la tienda Zustand esté correctamente importada
-import Loader from '../components/Loader'; // Asegúrate de que el componente Loader esté correctamente importado
+import { useStore } from '../stores/login';
+import Loader from '../components/Loader';
 
 // Validación de credenciales
 const validateCredentials = (username: string, password: string) => {
@@ -26,13 +26,13 @@ const Login: React.FC = () => {
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false); // Estado para gestionar la carga
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setIsLoggedIn, setUsername: setStoreUsername } = useStore(); // Usar Zustand para obtener y actualizar el estado
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setLoading(true); // Inicia el estado de carga
+    setLoading(true);
 
     // Validación de credenciales
     const validationError = validateCredentials(username, password);
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
         setPasswordError(validationError);
         setUsernameError(null);
       }
-      setLoading(false); // Finaliza el estado de carga
+      setLoading(false);
       return;
     }
 
@@ -54,12 +54,12 @@ const Login: React.FC = () => {
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('username', username);
     navigate('/home');
-    setLoading(false); // Finaliza el estado de carga
+    setLoading(false);
   };
 
   return (
     <div className="relative">
-      {loading && <Loader />} {/* Muestra el Loader si está cargando */}
+      {loading && <Loader />}
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <form
           onSubmit={handleSubmit}

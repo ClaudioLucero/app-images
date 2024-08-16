@@ -24,7 +24,7 @@ export const useImages = () => {
     queryKey: ['images'],
     queryFn: ({ pageParam = 1 }) => fetchImages(pageParam as number),
     getNextPageParam: (lastPage) => {
-      // En este caso, ya que la API no proporciona un total de páginas, ajusta la lógica según tu necesidad.
+      // En este caso, ya que la API no proporciona un total de páginas, ajusta la lógica.
       return lastPage.images.length === 10
         ? (lastPage.page ?? 1) + 1
         : undefined;
@@ -45,6 +45,5 @@ export const useImageDetails = (id: string) => {
     queryKey: ['imageDetails', id],
     queryFn: () => fetchImageDetails(id),
     staleTime: 60000,
-    // Remove cacheTime if not available
   });
 };

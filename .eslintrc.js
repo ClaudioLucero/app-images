@@ -3,7 +3,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
-    project: './tsconfig.json', // Asegúrate de que esta ruta es correcta
+    project: './tsconfig.json',
   },
   extends: [
     'eslint:recommended',
@@ -24,7 +24,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off', // Solo necesario para Next.js
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/extensions': ['error', 'never', {
-      svg: 'always', // Ajusta esta regla según tus necesidades
+      svg: 'always',
     }],
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: true,

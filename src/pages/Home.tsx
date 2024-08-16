@@ -21,14 +21,18 @@ const Home: React.FC = () => {
 
   const lastImageElementRef = useCallback(
     (node: HTMLDivElement | null) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
+      if (isLoading) return; // Si se están cargando imágenes, no se hace nada
+      if (observer.current) observer.current.disconnect(); // Desconecta el observer si ya está observando algo
+
       observer.current = new IntersectionObserver((entries) => {
+        // El callback se ejecuta cuando las entradas (entries) observadas cambian
         if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage();
+          // Si la primera entrada (entries[0]) está intersectando con el viewport y hay más páginas
+          fetchNextPage(); // Llama a la función para cargar la siguiente página de imágenes
         }
       });
-      if (node) observer.current.observe(node);
+
+      if (node) observer.current.observe(node); // Si el nodo no es nulo, comienza a observarlo
     },
     [isLoading, fetchNextPage, hasNextPage],
   );

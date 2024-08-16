@@ -1,7 +1,7 @@
 // src/components/Header.tsx
 
 import React from 'react';
-import { TextAlignJustifyIcon } from '@radix-ui/react-icons'; // Asegúrate de tener react-icons instalado
+import { TextAlignJustifyIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../stores/login';
 
@@ -30,12 +30,9 @@ const Header: React.FC<HeaderProps> = ({ toggleMenu }) => {
         <TextAlignJustifyIcon />
       </button>
 
-      {/* Espacio reservado para el contenido del medio, como el logo o el título */}
-      <div className="flex-1"></div>
-
       {/* Botón de cerrar sesión */}
       <button
-        className="text-red-500 hover:text-red-700"
+        className="text-white-500 hover:text-red-700"
         onClick={handleLogout}
       >
         Cerrar sesión
