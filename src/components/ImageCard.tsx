@@ -6,7 +6,7 @@ import { Image } from '../types/image';
 import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons';
 import Skeleton from './Skeleton';
 import { useFavoritesStore } from '../stores/favorites';
-import ConfirmationDialog from '../components/ConfirmDialog'; // Asegúrate de que el nombre del archivo sea correcto
+import ConfirmationDialog from '../components/ConfirmDialog';
 
 interface ImageCardProps {
   image: Image;
@@ -24,33 +24,30 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   };
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Evita que el clic en el ícono de favorito propague el evento
+    e.stopPropagation();
 
     if (isFavorite(image.id)) {
-      // Si es un favorito, muestra el diálogo para confirmar su eliminación
       setPendingAction(() => () => removeFavorite(image.id));
       setDialogOpen(true);
     } else {
-      // Si no es un favorito, simplemente agrégalo
       addFavorite(image);
     }
   };
 
   const handleConfirm = async () => {
     if (pendingAction) {
-      await pendingAction(); // Ejecuta la acción pendiente
+      await pendingAction();
     }
     setDialogOpen(false);
-    navigate('/home'); // Redirige a la página de inicio después de la confirmación
+    navigate('/home');
   };
 
   const handleCancel = () => {
-    setDialogOpen(false); // Solo cierra el diálogo sin hacer nada más
-    // No hacemos ninguna redirección aquí
+    setDialogOpen(false);
   };
 
   return (
-    <div className="relative" onClick={handleClick}>
+    <div className="relative w-full h-72 sm:h-auto" onClick={handleClick}>
       {!loaded && <Skeleton />}
       <LazyLoadImage
         src={image.download_url}
@@ -60,7 +57,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
         className="w-full h-72 object-cover rounded cursor-pointer"
         afterLoad={() => setLoaded(true)}
       />
-      <div className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-lg">
+      <div className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-lg z-20 sm:top-2 sm:right-2">
         {isFavorite(image.id) ? (
           <HeartFilledIcon
             className="text-red-500 cursor-pointer"
