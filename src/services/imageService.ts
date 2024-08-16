@@ -35,7 +35,7 @@ export const useImages = () => {
 };
 // Función para obtener detalles de una imagen por ID
 const fetchImageDetails = async (id: string): Promise<Image> => {
-  const response = await fetch(`https://picsum.photos/id/${id}333333/info`);
+  const response = await fetch(`https://picsum.photos/id/${id}/info`);
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 };
